@@ -5,8 +5,24 @@
 */
 
 #include <cstdio>
+#include <vector>
 
-short*& searchMinPath(short**& arr, const int& N, const int & pivot/*== starting point*/);
+using namespace std;
+
+typedef struct path {
+	int dest;
+	int weight;
+}Path;
+
+typedef struct node {
+	vector<Path> v;
+}Node;
+
+// return an int array that store distance to others
+int*& searchMinPath(Node *& arr, const int& N, const int & pivot/*== starting point*/);
+
+// Return distance between n1 and n2
+int howFar(Node &n1, const int& n2);
 
 int main() {
 	int N,
@@ -18,13 +34,8 @@ int main() {
 	A -= 1;
 	B -= 1;
 
-	// make an arr for path's info
-	short** pathInfo = new short* [N];
-	for (int i = 0; i < N; i++) {
-		pathInfo[i] = new short[N];
-		for (int j = 0; j < N; j++)
-			pathInfo[i][j] = -1;
-	}
+	// make an arr for node's info
+	Node* nodeInfo = new Node[N];
 
 	// get path info
 	for (int i = 0; i < N - 1; i++) {
@@ -33,30 +44,41 @@ int main() {
 			weight /* == length of the path */;
 
 		scanf("%d %d %d", &a, &b, &weight);
-		pathInfo[a-1][b-1] = pathInfo[b-1][a-1] = weight;
+		// the index started on 0
+		nodeInfo[a - 1].v.push_back({ b - 1, weight });
+		nodeInfo[b - 1].v.push_back({ a - 1, weight });
 	}
 
 	// get min path
-	short * arrA = searchMinPath(pathInfo, N, A);
-	short * arrB = searchMinPath(pathInfo, N, B);
+	int * arrA = searchMinPath(nodeInfo, N, A);
+	int * arrB = searchMinPath(nodeInfo, N, B);
 
 	// calculate result
-	unsigned long long result = arrA[0] + arrB[0];
+	int result = arrA[0] + arrB[0];
 	for (int i = 0; i < N; i++) {
 		for (int j = i; j < N; j++) {
-			if(pathInfo[i][j] != -1)
+			// if there is a path link i to j
+			if (howFar(nodeInfo[i], j) != -1)
 				result = (result < (arrA[i] + arrB[j]))? result : (arrA[i] + arrB[j]);
 		}
 	}
 
-	printf("%llu\n", result);
+	printf("%d\n", result);
 
 	return 0;
 }
 
-short*& searchMinPath(short**& arr, const int& N, const int& pivot/*== starting point*/) {
+int howFar(Node & n1, const int& n2) {
+	for (int i = 0; i < n1.v.size(); i++) {
+		if (n1.v.at(i).dest == n2)
+			return n1.v.at(i).weight;
+	}
+	return -1;
+};
+
+int*& searchMinPath(Node*& arr, const int& N, const int& pivot/*== starting point*/) {
 	// init result array
-	short* result = new short[N];
+	int* result = new int[N];
 	for (int i = 0; i < N; i++) {
 		result[i] = -1;
 	}
@@ -65,15 +87,19 @@ short*& searchMinPath(short**& arr, const int& N, const int& pivot/*== starting 
 	int count = 1;
 	while (count < N) {
 		for (int i = 0; i < N; i++) {
+			// i까지의 경로를 찾지 못했다면
 			if (result[i] == -1)
 				continue;
 
 			for (int j = 0; j < N; j++) {
+				// j까지의 경로를 이미 알고 있다면
 				if (result[j] != -1)
 					continue;
 
-				if (arr[i][j] != -1) {
-					result[j] = result[i] + arr[i][j];
+				// i와 j사이를 연결하는 통로가 있다면
+				int distance = howFar(arr[i], j);
+				if (distance != -1) {
+					result[j] = result[i] + distance;
 					count++;
 				}
 			}
