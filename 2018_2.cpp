@@ -45,7 +45,7 @@ int main() {
 				break;
 			}
 			else if (j == N - 1) {
-				lenArr[i] = -1;
+				lenArr[i] = 0;
 				break;
 			}
 		}
@@ -56,8 +56,14 @@ int main() {
 		int tn = arr[i].node;
 		for (int j = i - 1; j >= 0; j--) {
 			if (arr[j].color == tc) {
-				lenArr[i] = (lenArr[i] < (tn - arr[j].node)) ? lenArr[i] : (tn - arr[j].node);
-				break;
+				if (lenArr[i] == 0) {
+					lenArr[i] = tn - arr[j].node;
+					break;
+				}
+				else if ((tn - arr[j].node) != 0) {
+					lenArr[i] = (lenArr[i] < (tn - arr[j].node)) ? lenArr[i] : (tn - arr[j].node);
+					break;
+				}
 			}
 		}
 	}
