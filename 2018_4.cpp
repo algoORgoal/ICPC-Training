@@ -82,14 +82,20 @@ int main() {
 	for (int x = 0; x < M; x++) {
 		border.push_back(&field[0][x]);
 		field[0][x].checked = true;
-		border.push_back(&field[N - 1][x]);
-		field[N - 1][x].checked = true;
+		
+		if (field[N - 1][x].checked == false) {
+			border.push_back(&field[N - 1][x]);
+			field[N - 1][x].checked = true;
+		}
 	}
 	for (int y = 1; y < N - 1; y++) {
 		border.push_back(&field[y][0]);
 		field[y][0].checked = true;
-		border.push_back(&field[y][M - 1]);
-		field[y][M - 1].checked = true;
+		
+		if (field[y][M - 1].checked == false) {
+			border.push_back(&field[y][M - 1]);
+			field[y][M - 1].checked = true;
+		}
 	}
 
 	// solve the problem
@@ -102,7 +108,8 @@ int main() {
 		border.pop_back();
 
 		// flushing
-		now->height = now->wall[getDir(*now)];
+		if(getDir(*now) != -1)
+			now->height = now->wall[getDir(*now)];
 
 		// update left side
 		if (now->x != 0) {
