@@ -1,3 +1,10 @@
+/*
+#2020년 1월 14일
+#작성자 : 우이산
+#2013년 중등부 3번 문제
+#시간초과로 인한 실패
+*/
+
 #include <cstdio>
 #include <vector>
 #include <algorithm>
