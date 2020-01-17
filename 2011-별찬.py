@@ -23,9 +23,6 @@ f(25114) = f(5114) + f(114)
          = f(14) + f(4) + f(14) + f(4)
 '''
 
-
-
-
 import sys
 sys.setrecursionlimit(100000)
 def crypto(num, dic, idx_list):
@@ -37,7 +34,6 @@ def crypto(num, dic, idx_list):
         else:
             return 2
     else:
-        
         if num in dic.keys():
             return dic[num]
         else:
@@ -47,6 +43,7 @@ def crypto(num, dic, idx_list):
             else:
                 dic[num] = crypto(num[1:], dic, idx_list)
             return dic[num]
+
 str1 = input()
 dic = dict()
 idx_list = list()
