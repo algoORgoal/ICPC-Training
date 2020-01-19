@@ -1,3 +1,8 @@
+'''
+#윗주석 없음
+#주석 추가 요망
+'''
+
 def find_dis(dis):
     while(True):
         temp = list()

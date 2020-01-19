@@ -1,7 +1,7 @@
-/*
-#2019/1/1 ¿ìÀÌ»ê
-#2018³â ÃÊµîºÎ 3¹ø ¹®Á¦
-#ÀÛ¼º¾ð¾î c++
+  /*
+#2019/1/1 ìš°ì´ì‚°
+#2018ë…„ ì´ˆë“±ë¶€ 3ë²ˆ ë¬¸ì œ
+#ìž‘ì„±ì–¸ì–´ c++
 */
 
 #include <cstdio>
@@ -49,21 +49,21 @@ int main() {
 	stack<Node> s;
 	s.push(nodeInfo[A]);
 	while (s.top().nodeNum != B) {
-		// ÇöÀç ³ëµå¿¡¼­ Ãß°¡ÀûÀ¸·Î Å½»öÇÒ °æ·Î°¡ ¾ø´Ù¸é
-		// Áï, ÇöÀç ³ëµå¸¦ °æÀ¯ÇÏ´Â A¿¡¼­ B·Î ÀÌµ¿ÇÏ´Â °æ·Î°¡ Á¸ÀçÇÏÁö ¾Ê´Â´Ù¸é
+		// í˜„ìž¬ ë…¸ë“œì—ì„œ ì¶”ê°€ì ìœ¼ë¡œ íƒìƒ‰í•  ê²½ë¡œê°€ ì—†ë‹¤ë©´
+		// ì¦‰, í˜„ìž¬ ë…¸ë“œë¥¼ ê²½ìœ í•˜ëŠ” Aì—ì„œ Bë¡œ ì´ë™í•˜ëŠ” ê²½ë¡œê°€ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ”ë‹¤ë©´
 		if (s.top().v.empty()) {
 			s.pop();
 			s.top().v.pop_back();
 			continue;
 		}
 
-		// ÇöÀç ³ëµå¿¡¼­ Ãß°¡ÀûÀ¹·Î Å½»öÇÒ °æ·Î°¡ ÀÖ´Ù¸é
-		// Áï, ÇöÀç ³ëµå¸¦ °æÀ¯ÇÏ´Â A¿¡¼­ B·Î ÀÌµ¿ÇÏ´Â °æ·Î°¡ Á¸ÀçÇÒ °¡´É¼ºÀÌ ÀÖ´Ù¸é
-		// ´ÙÀ½ ³ëµå¸¦ Å½»ö
+		// í˜„ìž¬ ë…¸ë“œì—ì„œ ì¶”ê°€ì ìœ¼ë¡œ íƒìƒ‰í•  ê²½ë¡œê°€ ìžˆë‹¤ë©´
+		// ì¦‰, í˜„ìž¬ ë…¸ë“œë¥¼ ê²½ìœ í•˜ëŠ” Aì—ì„œ Bë¡œ ì´ë™í•˜ëŠ” ê²½ë¡œê°€ ì¡´ìž¬í•  ê°€ëŠ¥ì„±ì´ ìžˆë‹¤ë©´
+		// ë‹¤ìŒ ë…¸ë“œë¥¼ íƒìƒ‰
 		int nextNode = s.top().v.back().first;
 
-		// ¿ì¼±, ±æÀ» µÇµ¹¾Æ°¡´Â°ÍÀ» ¹æÁö
-		// ´ÙÀ½ ³ëµå¿Í ¿¬°áµÈ ±æ ¸ñ·Ï¿¡¼­ ÇöÀç ³ëµå¿Í ÀÌ¾îÁö´Â ±æÀ» Á¦°Å
+		// ìš°ì„ , ê¸¸ì„ ë˜ëŒì•„ê°€ëŠ”ê²ƒì„ ë°©ì§€
+		// ë‹¤ìŒ ë…¸ë“œì™€ ì—°ê²°ëœ ê¸¸ ëª©ë¡ì—ì„œ í˜„ìž¬ ë…¸ë“œì™€ ì´ì–´ì§€ëŠ” ê¸¸ì„ ì œê±°
 		for (vector<pair<int, int>>::iterator it = nodeInfo[nextNode].v.begin(); it != nodeInfo[nextNode].v.end(); it++) {
 			if ((*it).first == s.top().nodeNum) {
 				nodeInfo[nextNode].v.erase(it);
@@ -71,7 +71,7 @@ int main() {
 			}
 		}
 
-		// ´ÙÀ½ ³ëµå¸¦ °æ·Î¿¡ Ãß°¡
+		// ë‹¤ìŒ ë…¸ë“œë¥¼ ê²½ë¡œì— ì¶”ê°€
 		s.push(nodeInfo[nextNode]);
 	}
 
