@@ -1,10 +1,10 @@
 /*
-#2020³â 1¿ù 15ÀÏ
-#2011¹ø ¹®Á¦
-#ÀÛ¼ºÀÚ : ¿ìÀÌ»ê
-#ÀÛ¼º¾ð¾î : c++
+#2020ë…„ 1ì›” 15ì¼
+#2011ë²ˆ ë¬¸ì œ
+#ìž‘ì„±ìž : ìš°ì´ì‚°
+#ìž‘ì„±ì–¸ì–´ : c++
 #note
-#DP ±âº»¹®Á¦
+#DP ê¸°ë³¸ë¬¸ì œ
 */
 
 #include <cstdio>
@@ -24,7 +24,7 @@ int main() {
 		arr[size] = temp;
 	}
 
-	// °á°ú ¹è¿­ -1·Î ÃÊ±âÈ­
+	// ê²°ê³¼ ë°°ì—´ -1ë¡œ ì´ˆê¸°í™”
 	for (int i = 0; i < size; i++)
 		result[i] = -1;
 
@@ -34,24 +34,24 @@ int main() {
 }
 
 const int& calculate(const int& index) {
-	// ÀÌ¹Ì °è»êµÈ °æ¿ì
+	// ì´ë¯¸ ê³„ì‚°ëœ ê²½ìš°
 	if (result[index] != -1)
 		return result[index];
 
-	// ÇØ¼®ÇÒ ¼ö ¾ø´Â ¾ÏÈ£¹®ÀÎ °æ¿ì
+	// í•´ì„í•  ìˆ˜ ì—†ëŠ” ì•”í˜¸ë¬¸ì¸ ê²½ìš°
 	if(arr[index] == '0')
 		result[index] =  0;
-	// ¸¶Áö¸· ¼ýÀÚÀÎ °æ¿ì
+	// ë§ˆì§€ë§‰ ìˆ«ìžì¸ ê²½ìš°
 	else if (index == size - 1)   
 		result[index] = 1;
-	// µÚ¿¡ ¼ýÀÚ°¡ 1°³ ³²Àº °æ¿ì
+	// ë’¤ì— ìˆ«ìžê°€ 1ê°œ ë‚¨ì€ ê²½ìš°
 	else if (index == size - 2) { 
 		if (arr[index] == '1' || ( arr[index] == '2' && arr[index + 1] <= '6') )
 			result[index] = 1 + calculate(index + 1);
 		else
 			result[index] = calculate(index + 1);
 	}
-	// µÚ¿¡ ¼ýÀÚ°¡ 2°³ ÀÌ»ó ³²Àº °æ¿ì
+	// ë’¤ì— ìˆ«ìžê°€ 2ê°œ ì´ìƒ ë‚¨ì€ ê²½ìš°
 	else { 
 		if (arr[index] == '1' || (arr[index] == '2' && arr[index + 1] <= '6'))
 			result[index] = (calculate(index + 1) + calculate(index + 2)) % 1000000;
