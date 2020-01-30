@@ -1,4 +1,12 @@
 
+'''
+    날짜: 2020-01-29
+    언어: python
+    문제: 2016년도 초등부 문제 1
+    작성자: 김별찬
+    상태: 완성
+'''
+
 
 def find_start(triangle):
     last_row = triangle[len(triangle) - 1]
