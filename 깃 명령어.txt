@@ -9,3 +9,6 @@ git remote -v
 
 <깃 첫 시작>
 git init
+
+<깃 파일 내려 받기>
+git pull origin master
