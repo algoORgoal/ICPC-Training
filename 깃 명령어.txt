@@ -1,0 +1,14 @@
+<깃 허브에 올리는 방법>
+git add --all
+git commit -m "명령어"
+git push -u origin master
+
+<깃허브 URL 설정>
+git remote add origin URL주소
+git remote -v
+
+<깃 첫 시작>
+git init
+
+<깃 파일 내려 받기>
+git pull origin master
