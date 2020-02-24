@@ -1,4 +1,4 @@
-<깃 허브에 올리는 방법>
+gi<깃 허브에 올리는 방법>
 git add --all
 git commit -m "명령어"
 git push -u origin master
