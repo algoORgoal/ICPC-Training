@@ -1,6 +1,6 @@
 /*
 날짜: 2020-02-23
-상태: 미완성
+상태: 틀렸습니다(67%)
 */
 
 const readline = require('readline');
@@ -63,62 +63,64 @@ let main = function (n, m) {
         }
     } else if (n >= 3) {
         if (coord[1] < m) {
-            console.log("test case 1");
-            move_one(coord);
-            count++;
-        } else {
-            return count;
-        }
-        if (coord[1] < m) {
-            console.log("test case 2");
-            move_four(coord);
-            count++;
-        } else {
-            return count;
-        }
-        if (coord[1] < m) {
-            console.log("test case 3");
-            move_one(coord);
-            count++;
-        } else {
-            return count;
-        }
-        if (coord[1] < m) {
-            console.log("test case 4");
-            move_four(coord);
-            count++;
-        } else {
-            return count;
-        }
-        if (coord[1] < m - 1) {
-            console.log("test case 5");
-            move_two(coord);
-            count++;
-        } else {
-            return count;
-        }
-        if (coord[1] < m - 1) {
-            console.log("test case 6");
-            move_three(coord);
-            count++;
-        } else {
-            return count--;
-        }
 
-        while (true) {
+            move_one(coord);
+            count++;
+        } else {
+            return count;
+        }
+        if (coord[1] < m) {
+
+            move_four(coord);
+            count++;
+        } else {
+            return count;
+        }
+        if (coord[1] < m) {
+
+            move_one(coord);
+            count++;
+        } else {
+            return count;
+        }
+        if (coord[1] < m - 4) {
             if (coord[1] < m) {
 
-                move_one(coord);
+                move_four(coord);
                 count++;
             } else {
                 return count;
             }
-            if (coord[1] < m) {
-                move_four(coord);
+            if (coord[1] < m - 1) {
+
+                move_two(coord);
                 count++;
-            }
-            else {
+            } else {
                 return count;
+            }
+            if (coord[1] < m - 1) {
+
+                move_three(coord);
+                count++;
+            } else {
+                return count;
+            }
+
+            while (true) {
+                if (coord[1] < m) {
+
+                    move_one(coord);
+                    count++;
+                } else {
+                    return count;
+                }
+                if (coord[1] < m) {
+                    move_four(coord);
+                    count++;
+                }
+                else {
+                    return count;
+                }
             }
         }
     }
