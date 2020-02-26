@@ -25,8 +25,8 @@ public class Main {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int N = Integer.parseInt(st.nextToken()); // ¼öºóÀÇ À§Ä¡
-		int K = Integer.parseInt(st.nextToken()); // µ¿»ýÀÇ À§Ä¡
+		int N = Integer.parseInt(st.nextToken()); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+		int K = Integer.parseInt(st.nextToken()); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 
 		if (N > K) {
 			bw.write((N - K) + "\n");
