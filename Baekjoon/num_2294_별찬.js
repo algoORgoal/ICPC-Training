@@ -5,7 +5,7 @@
 */
 
 const fs = require('fs');
-const input = fs.readFileSync('TestJs/stdin').toString().split(/\r\n|\s/).map((el) => parseInt(el));
+const input = fs.readFileSync('TestJs/stdin').toString().split(/\r\n|\s|\n/).map((el) => parseInt(el));
 // const input = fs.readFileSync('dev/stdin').toString().split(/\r\n|\s/).map((el) => parseInt(el));
 console.log(input);
 main(...input);
