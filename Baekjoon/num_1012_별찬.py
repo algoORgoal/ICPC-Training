@@ -35,9 +35,23 @@ def count_subgraph(graph, positions):
     total_subgraphs = 0
     for x, y in positions:
         if (graph[y][x] == 1):
-            BFS(graph, len(graph[y]), len(graph), x, y)
+            DFS(graph, len(graph[y]), len(graph), x, y)
             total_subgraphs += 1
     return total_subgraphs
+
+
+def DFS(graph, length, width, initial_x, initial_y):
+    stack = []
+    stack.append([initial_x, initial_y])
+    graph[initial_y][initial_x] = 0
+
+    while (len(stack) > 0):
+        current_x, current_y = stack.pop()
+        adjacency_positions = find_adjacent_positions(current_x, current_y)
+        for next_x, next_y in adjacency_positions:
+            if is_in_range(graph, length, width, next_x, next_y) and hasToVisit(graph, next_x, next_y):
+                graph[next_y][next_x] = 0
+                stack.append([next_x, next_y])
 
 
 def BFS(graph, length, width, initial_x, initial_y):
