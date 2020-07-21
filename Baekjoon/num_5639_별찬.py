@@ -46,6 +46,13 @@ class Tree:
                 yield key
             yield node.key
 
+    def traverse_in_postorder2(self, node):
+        if node.left:
+            self.traverse_in_postorder2(node.left)
+        if node.right:
+            self.traverse_in_postorder2(node.right)
+        print(node.key)
+
     def traverse_in_postorder_using_tree(self):
         stack = []
         stack.append(self.root)
