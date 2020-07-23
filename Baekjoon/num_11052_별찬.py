@@ -30,11 +30,18 @@ def tabulation(total_cards, price_list):
 def memoization(cards, price_list, price_len, memo):
     if cards in memo:
         return memo[cards]
-    current_price_list = [memoization(card_spent, price_list, price_len, memo) + memoization(cards - card_spent, price_list, price_len, memo)
-                          for card_spent in range(1, cards + 1) if cards > card_spent]
-    if cards <= price_len:
-        current_price_list += [price_list[cards]]
-    memo[cards] = max(current_price_list)
+    current_price = 0
+    for card_spent in range(1, cards // 2 + 1):
+        memo[card_spent] = memoization(
+            card_spent, price_list, price_len, memo)
+        memo[cards - card_spent] = memoization(
+            cards - card_spent, price_list, price_len, memo)
+
+        if current_price < memo[card_spent] + memo[cards - card_spent]:
+            current_price = memo[card_spent] + memo[cards - card_spent]
+    current_price = price_list[cards] if cards <= price_len and current_price < price_list[
+        cards] else current_price
+    memo[cards] = current_price
     return memo[cards]
 
 
