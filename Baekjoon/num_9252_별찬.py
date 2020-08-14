@@ -1,6 +1,6 @@
 # name: LCS 2
 # date: July 25, 2020
-# status: unsolved
+# status: solved
 import sys
 
 
