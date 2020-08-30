@@ -1,88 +1,44 @@
-'''
-문제이름: 텀프로젝트
-상태: 미완성
-'''
+# name: Term Project
+# date: August 29, 2020
+# status: solved
+
+import sys
+sys.setrecursionlimit(100000000)
 
 
-def main():
-    count_tests = int(input())
-    for i in range(count_tests):
-        count_students = int(input())
-        selection = list()
-        selection = input().split()
-        for i in range(len(selection)):
-            selection[i] = int(selection[i])
-        print(selection)
-
-        index_list = list()
-        for i in range(1, count_students + 1):
-            index_list.append(i)
-
-        # print(index_list)
-
-        students_in_team = 0
-        while index_list:
-            route = list()
-            team = create_team(index_list[0], index_list[0], selection, route)
-            if team:
-                for member in team:
-                    index_list.remove(member)
-                    students_in_team += 1
-            else:
-                index_list.remove(index_list[0])
-        students_out_of_team = count_students - students_in_team
-        #print("students_out_of_team:", students_out_of_team)
-        print(students_out_of_team)
+def solution():
+    t = int(sys.stdin.readline())
+    for _ in range(t):
+        n = int(sys.stdin.readline())
+        edges = {i + 1: int(char)
+                 for i, char in enumerate(sys.stdin.readline().strip().split(' '))}
+        has_cycles = [0 for _ in range(n + 1)]
+        visited = [False for _ in range(n + 1)]
+        for edge in edges:
+            path = {}
+            start = find_cycle(edges, edge, visited, path, 0)
+            if start == -1:
+                continue
+            path_reversed = {path[node]: node for node in path}
+            current = start
+            while current in path_reversed:
+                student = path_reversed[current]
+                has_cycles[student] = 1
+                current += 1
+        answer = n - sum(has_cycles)
+        print(answer)
 
 
-def create_team(start, current, selection, route):
-    # print("start", start)
-    # print("current", current)
-    route.append(current)
-    # print("route", route)
-    idx = current - 1
-    if selection[idx] == start:
-        return route
-    elif selection[idx] in route:
-        return []
-    elif selection[idx] == current:  # when node points to itself
-        if start == current:
-            return route
-        else:
-            return []
-    elif selection[idx] != start:
-        return create_team(start, selection[idx], selection, route)
+def find_cycle(edges, current, visited, path, index):
+    if current in path:
+        return path[current]
+    if visited[current]:
+        return -1
+    visited[current] = True
+    path[current] = index
+    next1 = edges[current]
+    index = find_cycle(edges, next1, visited, path, index + 1)
+    return index
 
 
-main()
-
-
-'''
-for i in range(1, count_students + 1):
-    route = list()
-    team = create_team(i, i, selection, route)
-    # if team:
-    print("case ", i, "team created: ", team)
-'''
-
-
-'''
-for i in range(1, count_students + 1):
-    route = list()
-    team = create_team(i, i, selection, route)
-    # if team:
-    print("case ", i, "team created: ", team)
-'''
-
-'''
-test case
-2
-7
-3 1 3 7 3 4 6
-
-2
-7
-3 1 3 7 3 4 6
-8
-1 2 3 4 5 6 7 8
-'''
+solution()
