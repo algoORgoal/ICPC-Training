@@ -3,42 +3,35 @@
 # status: solved
 
 import sys
-sys.setrecursionlimit(100000000)
 
 
 def solution():
     t = int(sys.stdin.readline())
     for _ in range(t):
         n = int(sys.stdin.readline())
-        edges = {i + 1: int(char)
-                 for i, char in enumerate(sys.stdin.readline().strip().split(' '))}
-        has_cycles = [0 for _ in range(n + 1)]
+        students = {i + 1: int(char)
+                    for i, char in enumerate(sys.stdin.readline().strip().split(' '))}
+        bullies = 0
         visited = [False for _ in range(n + 1)]
-        for edge in edges:
-            path = {}
-            start = find_cycle(edges, edge, visited, path, 0)
-            if start == -1:
+        for student in students:
+            incomplete = []
+            if visited[student]:
                 continue
-            path_reversed = {path[node]: node for node in path}
-            current = start
-            while current in path_reversed:
-                student = path_reversed[current]
-                has_cycles[student] = 1
-                current += 1
-        answer = n - sum(has_cycles)
+            current = student
+            # find the start node of cycle or the one already visited
+            while not visited[current]:
+                visited[current] = True
+                current = students[current]
+            end = current
+            current = student
+            # find nodes until it's nor in cycle or visited already
+            while current != end:
+                incomplete.append(current)
+                current = students[current]
+            bullies += len(incomplete)
+
+        answer = bullies
         print(answer)
-
-
-def find_cycle(edges, current, visited, path, index):
-    if current in path:
-        return path[current]
-    if visited[current]:
-        return -1
-    visited[current] = True
-    path[current] = index
-    next1 = edges[current]
-    index = find_cycle(edges, next1, visited, path, index + 1)
-    return index
 
 
 solution()
