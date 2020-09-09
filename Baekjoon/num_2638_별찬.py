@@ -1,72 +1,94 @@
-'''
-문제 이름: 치즈
-날짜: 2020-02-19
-상태: 미해결(런타임 에러)
-1. cheese[x][y] = -1을 주석처리해도 런타임에러 발생
-'''
+# name: 치즈
+# date: September 8, 2020
+# status: solved
+
+from sys import stdin
 
 
-def find_next(x, y, width, length, cheese):  # 0,0에서 시작
-    cheese[x][y] = -1  # 탐색된 칸임을 표시함
-    if x > 0:  # 상측 이동
-        if cheese[x - 1][y] >= 1:
-            cheese[x - 1][y] += 1
-        elif cheese[x - 1][y] != -1:  # 0일 경우(탐색되지 않은 공백 칸)
-            find_next(x - 1, y, width, length, cheese)
-    if x < width - 1:  # 하측 이동
-        if cheese[x + 1][y] >= 1:
-            cheese[x + 1][y] += 1
-        elif cheese[x+1][y] != -1:
-            find_next(x + 1, y, width, length, cheese)
-    if y > 0:  # 좌측 이동
-        if cheese[x][y - 1] >= 1:
-            cheese[x][y-1] += 1
-        elif cheese[x][y - 1] != -1:
-            find_next(x, y - 1, width, length, cheese)
-    if y < length - 1:  # 우측 이동
-        if cheese[x][y + 1] >= 1:
-            cheese[x][y + 1] += 1
-        elif cheese[x][y + 1] != -1:
-            find_next(x, y + 1, width, length, cheese)
+def solution():
+    n, m = list(map(int, stdin.readline().strip().split(' ')))
+    cheese = [list(map(int, stdin.readline().strip().split(' ')))
+              for i in range(n)]
+    answer = bfs(cheese, n, m)
+    print(answer)
 
 
-def melt(width, length, cheese):
-    for i in range(width):
-        for j in range(length):
-            # 치즈 제거와 없던 부분은 다시 0으로 할당
-            if cheese[i][j] == -1 or cheese[i][j] >= 3:
-                cheese[i][j] = 0
-            # 한변만 공기와 접촉하였을 경우 1로 바꿔줌
-            elif cheese[i][j] == 2:
-                cheese[i][j] = 1
+def bfs(cheese, n, m):
+    time = 0
+    cheese_blocks = [[i, j]
+                     for i in range(n) for j in range(m) if cheese[i][j] == 1]
+    while cheese_blocks:
+        start = [0, 0]
+        queue = [start]
+        visited = [[False] * m for i in range(n)]
+        while queue:
+            x, y = queue.pop(0)
+            cheese[x][y] = 2
+
+            next_blocks = filter(lambda position: is_position_valid(
+                position, n, m) and is_not_visited(visited, position) and is_empty(cheese, position), get_next_blocks(x, y))
+
+            for next_x, next_y in next_blocks:
+                visited[next_x][next_y] = True
+                queue = queue + [[next_x, next_y]]
+        cheese_blocks = remove_melted(cheese, cheese_blocks)
+
+        time += 1
+    return time
 
 
-def is_all_melted(width, length, cheese):
-    for i in range(width):
-        for j in range(length):
-            if cheese[i][j] != 0:
+def get_next_blocks(x, y):
+    yield [x - 1, y]  # up
+    yield [x + 1, y]  # down
+    yield [x, y - 1]  # left
+    yield [x, y + 1]  # right
+
+
+def is_position_valid(position, n, m):
+    x, y = position
+    return 0 <= x <= n - 1 and 0 <= y <= m - 1
+
+
+def is_empty(cheese, position):
+    x, y = position
+    return cheese[x][y] != 1
+
+
+def is_all_melted(cheese, n, m):
+    for i in range(n):
+        for j in range(m):
+            if cheese[i][j] == 1:
                 return False
     return True
 
 
-# main
-#width, length = map(int, input().split())
-width, length = input().split()
-width = int(width)
-length = int(length)
-cheese = list()
+def is_not_visited(visited, position):
+    x, y = position
+    return not visited[x][y]
 
 
-for e in range(width):
-    line = list(map(int, input().split()))
-    cheese.append(line)
+def is_outer_space(cheese, position):
+    x, y = position
+    return cheese[x][y] == 2
 
-count = 0
-while not is_all_melted(width, length, cheese):
-    find_next(0, 0, width, length, cheese)
-    melt(width, length, cheese)
-    count += 1
-print(count)
+
+def remove_melted(cheese, cheese_blocks):
+    melted = list()
+    unmelted = list()
+    for x, y in cheese_blocks:
+        outer_spaces = len(list(filter(lambda position: is_outer_space(
+            cheese, position), get_next_blocks(x, y))))
+        if outer_spaces >= 2:
+            melted += [[x, y]]
+        else:
+            unmelted += [[x, y]]
+
+    for x, y in melted:
+        cheese[x][y] = 2
+    return unmelted
+
+
+solution()
 
 
 '''
@@ -79,23 +101,4 @@ print(count)
 0 1 0 1 1 1 0 1 0
 0 1 1 0 0 0 1 1 0
 0 0 0 0 0 0 0 0 0
-
-모두 0인 경우
-5 5
-0 0 0 0 0
-0 0 0 0 0
-0 0 0 0 0
-0 0 0 0 0
-0 0 0 0 0
-
-겉 테두리 제외 1
-5 5
-0 0 0 0 0
-0 1 1 1 0
-0 1 1 1 0
-0 1 1 1 0
-0 0 0 0 0
-
-ㅠㅠ
-살려주세요...
 '''
