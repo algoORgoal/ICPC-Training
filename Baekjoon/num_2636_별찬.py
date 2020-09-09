@@ -27,12 +27,12 @@ def bfs(cheese, row, col):
     time = 0
     last_melted_cheese = 0
     melted_cheese = 0
-    visited = [[False for j in range(col)] for i in range(row)]
     while time == 0 or melted_cheese != 0:
         last_melted_cheese = melted_cheese
         melted_cheese = 0
         initial = [0, 0]
-        queue = [[initial]]
+        queue = [initial]
+        visited = [[False for j in range(col)] for i in range(row)]
         while queue:
             x, y = queue.pop(0)
             if cheese[x][y]:
